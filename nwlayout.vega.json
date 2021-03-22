@@ -1,0 +1,32 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 600,
+    "height": 500,
+    "description": "Network Layout Hex grid for ISD",
+    "data": {
+        "url": "results/default/nwlayout.csv"
+    },
+    "mark": {
+        "type": "rule"
+    },
+    "encoding": {
+        "x": {
+            "field": "X",
+            "type": "quantitative",
+            "title": "X (meters)"
+        },
+        "y": {
+            "field": "Y",
+            "type": "quantitative",
+            "title": "Y (meters)"
+        },
+        "x2": {
+            "field": "X2",
+            "type": "quantitative"
+        },
+        "y2": {
+            "field": "Y2",
+            "type": "quantitative"
+        }
+    }
+}

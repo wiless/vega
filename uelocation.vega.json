@@ -1,0 +1,29 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+        "url": "results/default/uelocation.csv"
+    },
+    "transform": [],
+    "layer": [
+        {
+            "mark": "circle",
+            "encoding": {
+                "x": {
+                    "field": "X",
+                    "type": "quantitative"
+                },
+                "y": {
+                    "field": "Y",
+                    "type": "quantitative"
+                },
+                "color": {
+                    "field": "GCellID",
+                    "type": "nominal"
+                }
+            }
+        }
+    ],
+    "title": "DL SINR CDF of UMA mMTC",
+    "width": 600,
+    "height": 600
+}

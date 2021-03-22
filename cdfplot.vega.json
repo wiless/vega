@@ -1,0 +1,133 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+        "url": "results/default/slsprofile.csv"
+    },
+    "transform": [
+        {
+            "calculate": "datum.BestSINR",
+            "as": "X"
+        },
+        {
+            "sort": [
+                {
+                    "field": "BestSINR"
+                }
+            ],
+            "window": [
+                {
+                    "op": "count",
+                    "field": "count",
+                    "as": "CDF"
+                }
+            ],
+            "frame": [
+                null,
+                0
+            ]
+        },
+        {
+            "calculate": "datum.CDF/4500",
+            "as": "CDFunity"
+        },
+        {
+            "calculate": "datum.CDFunity<=.05",
+            "as": "celledge"
+        }
+    ],
+    "layer": [
+        {
+            "selection": {
+                "pandz": {
+                    "type": "interval",
+                    "bind": "scales"
+                }
+            },
+            "mark": "line",
+            "encoding": {
+                "x": {
+                    "field": "BestSINR",
+                    "type": "quantitative",
+                    "title": "SINR (dB)"
+                },
+                "y": {
+                    "field": "CDFunity",
+                    "type": "quantitative",
+                    "title": "CDF"
+                }
+            }
+        },
+        {
+            "transform": [
+                {
+                    "filter": "datum.celledge==true"
+                }
+            ],
+            "layer": [
+                {
+                    "mark": {
+                        "type": "area",
+                        "fill": "red"
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "X",
+                            "type": "quantitative"
+                        },
+                        "y": {
+                            "field": "CDFunity",
+                            "type": "quantitative"
+                        }
+                    }
+                },
+                {
+                    "mark": {
+                        "type": "rule",
+                        "strokeDash": [
+                            4,
+                            1
+                        ]
+                    },
+                    "encoding": {
+                        "y": {
+                            "datum": 0.05
+                        },
+                        "color": {
+                            "value": "red"
+                        }
+                    }
+                },
+                {
+                    "mark": {
+                        "type": "text",
+                        "align": "left",
+                        "baseline": "bottom",
+                        "dx": 10,
+                        "dy": 0,
+                        "angle": -20
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "X",
+                            "type": "quantitative",
+                            "aggregate": "max"
+                        },
+                        "y": {
+                            "datum": 0.05
+                        },
+                        "text": {
+                            "test": "datum.CDFunity>=0.05",
+                            "field": "X",
+                            "type": "quantitative",
+                            "aggregate": "max",
+                            "format": "1.3f"
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "title": "DL SINR CDF of UMA mMTC",
+    "width": 400,
+    "height": 300
+}
